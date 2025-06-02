@@ -4,6 +4,7 @@ const path = require("path");
 const { Wallet } = require("ethers");
 
 const NUM_ADMINS = 4; // 생성할 지갑 수
+// 부여할 역할 const ROLE = 배터리
 
 function generateAdminWallets(count) {
   const wallets = [];
@@ -14,6 +15,7 @@ function generateAdminWallets(count) {
       name: `관리자${i + 1}`,
       address: wallet.address,
       privateKey: wallet.privateKey,
+      // role: 
     });
   }
 
