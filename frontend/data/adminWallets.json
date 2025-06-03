@@ -1,22 +1,22 @@
 [
   {
     "name": "관리자1",
-    "address": "0x9A57D42B9FA44B1C139Ac2e2ef3d906E5169a6ca",
-    "privateKey": "0x63ea40a9b7153f4651c5b14cd54f1ce968404ed3a7dc6fe8a66480935a3229e5"
+    "address": "0x49d66D23504Bf2cab1B395E86b1C2C611c141e73",
+    "privateKey": "0x559504cceffc8bef268908577bbde33586e5dece75e82fe9ff3ecb34af661840"
   },
   {
     "name": "관리자2",
-    "address": "0x9c18779070c96C4B5dbe79312a45F52A7Bdc09EA",
-    "privateKey": "0x9fdb05e464e2852a6e62a2dba74b0e0090540d769cac3de430845ca3df7c2d5a"
+    "address": "0xD5DeF1ebF26ccF3b288f00c0f80E08e630885349",
+    "privateKey": "0xb50c7f981a8dfa5133f5961ee436a0afd92eef91803e99d6adf94da23eecb8e5"
   },
   {
     "name": "관리자3",
-    "address": "0x2c83CBDD18CD23f913F905EE0DCC9fc73c6F605b",
-    "privateKey": "0x4d8ad290a6be9ea1b8dc77796c3fa453ecbe6cf2fcdb46080e690c6f3c229a7d"
+    "address": "0xccFc3996af8D3F485B582c9D6D1c1426E1933779",
+    "privateKey": "0xeac7f43ffdbdc35175d56e0e645e3f51b5be4982a4b98f69fde5a2c13845bcaf"
   },
   {
     "name": "관리자4",
-    "address": "0xDcFC05F41E7babD87DF85d251fd3aAAB8235e9f1",
-    "privateKey": "0xbbf47926d1eab38a68ddf29d5c920c689e60480cbdc03a312a5b154dc020f351"
+    "address": "0x58597e81c60B90feb1069aBa09F945A835c18901",
+    "privateKey": "0x10742005445cf58c6d92f7f09b58354046534b010ce654d187f1cfdb3a85b142"
   }
 ]

@@ -1,21 +1,22 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
   const form = document.querySelector("form");
 
-  // if (!window.ethereum) {
-  //   alert("MetaMask를 설치해주세요.");
-  //   return;
-  // }
+  if (!window.ethereum) {
+    alert("MetaMask를 설치해주세요.");
+    return;
+  }
 
-  const provider = new ethers.providers.JsonRpcProvider(
-    "http://localhost:8545/"
-  );
-  const privateKey =
-    "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
-  const signer = new ethers.Wallet(privateKey, provider);
+  // const provider = new ethers.providers.JsonRpcProvider(
+  //   "http://localhost:8545/"
+  // );
+  // const privateKey =
+  //   "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
+  // const signer = new ethers.Wallet(privateKey, provider);
+
   // ✅ 관리자 인증 로직 제거
-  // await window.ethereum.request({ method: "eth_requestAccounts" });
-  // const provider = new ethers.providers.Web3Provider(window.ethereum);
-  // const signer = provider.getSigner();
+  await window.ethereum.request({ method: "eth_requestAccounts" });
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = provider.getSigner();
 
   const contractAddress = "0x5fbdb2315678afecb367f032d93f642f64180aa3"; // 배포한 스마트컨트랙트 주소
   const contractABI = [
@@ -475,19 +476,24 @@ document.addEventListener("DOMContentLoaded", function () {
       // }
 
       const savedSteps = await contract.getProcessSteps(trackingId);
+      console.log("savedSteps:");
       console.log(savedSteps);
 
       try {
         await navigator.clipboard.writeText(trackingId);
         alert(
-          `${componentName} 등록 완료!\n부속품 ID: ${trackingId} (클립보드에 복사됨됨)`
+          `${componentName} 등록 완료!\n부속품 ID: ${trackingId} (클립보드에 복사됨)`
         );
       } catch {
         alert(` ${componentName} 등록 완료!\n부속품 ID: ${trackingId}`);
       }
 
       form.reset();
-      window.location.href = "../index.html";
+
+      setTimeout(() => {
+        window.location.href = "/Tracer/frontend/templates/index.html";
+      }, 2000);
+      // window.location.href = "/Tracer/frontend/templates/index.html";
     } catch (err) {
       console.error("❌ 등록 중 오류 발생:", err);
       alert("트랜잭션 처리 중 오류가 발생했습니다.");
@@ -509,28 +515,56 @@ function getEventArgs(receipt, eventName, abi) {
   return null;
 }
 
-// async function checkAdminAccess() {
-//   // 메타마스크 주소 요청
-//   if (!window.ethereum) {
-//     alert("MetaMask가 필요합니다.");
-//     window.location.href = "../index.html";
-//     return;
-//   }
-//   await window.ethereum.request({ method: 'eth_requestAccounts' });
-//   const provider = new ethers.providers.Web3Provider(window.ethereum);
-//   const signer = provider.getSigner();
-//   const userAddress = (await signer.getAddress()).toLowerCase();
+async function checkAdminAccess() {
+  if (!window.ethereum) {
+    alert("MetaMask가 필요합니다.");
+    window.location.href = "../index.html";
+    return;
+  }
 
-//   // adminWallets.json 불러오기 (경로는 상황에 맞게)
-//   const res = await fetch("../data/adminWallets.json");
-//   const wallets = await res.json();
-//   const adminAddrs = wallets.map(w => w.address.toLowerCase());
+  try {
+    console.log("📝 MetaMask 연결 요청...");
+    await window.ethereum.request({ method: 'eth_requestAccounts' });
 
-//   if (!adminAddrs.includes(userAddress)) {
-//     alert("관리자 권한이 없습니다. 접근이 차단됩니다.");
-//     window.location.href = "../index.html";
-//   }
-// }
+    console.log("📝 ethers provider 준비...");
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
 
-// // 페이지 로드시 실행
-// checkAdminAccess();
+    console.log("📝 주소 가져오기...");
+    const userAddress = (await signer.getAddress())?.toLowerCase();
+    console.log(`📝 현재 주소: ${userAddress}`);
+
+    if (!userAddress) {
+      alert("메타마스크 주소 가져오기 실패.");
+      window.location.href = "../index.html";
+      return;
+    }
+
+    console.log("📝 관리자 목록 로드 중...");
+    const res = await fetch("../../data/adminWallets.json");
+    if (!res.ok) {
+      throw new Error(`adminWallets.json 로드 실패: ${res.status}`);
+    }
+    const wallets = await res.json();
+    const adminAddrs = wallets.map(w => w.address.toLowerCase());
+    console.log("📝 관리자 주소 목록:", adminAddrs);
+
+    if (!adminAddrs.includes(userAddress)) {
+      alert("관리자 권한이 없습니다. 접근이 차단됩니다.");
+      setTimeout(() => {
+        window.location.href = "../index.html";
+      }, 3000);  // 3초 후 이동
+    } else {
+      console.log("✅ 관리자 권한 확인 완료");
+    }
+
+  } catch (err) {
+    console.error("❌ checkAdminAccess 에러 발생:", err);
+    alert("메타마스크 연결 실패 또는 관리자 확인 실패. 콘솔을 확인하세요.");
+    window.location.href = "../index.html";
+  }
+}
+
+
+// 페이지 로드시 실행
+checkAdminAccess();
