@@ -17,7 +17,18 @@
   <body>
     <div class="container">
       <header>
-        <div onclick="location.href='index.html'" class="logo">♦︎ Tracer</div>
+        <div class="logo">♦︎ Tracer</div>
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            const logo = document.querySelector('.logo');
+            if (logo) {
+              logo.addEventListener('click', function () {
+                sessionStorage.clear();
+                location.href = 'index.html';
+              });
+            }
+          });
+        </script>
         <div class="admin-btn" onclick="location.href='admin/admin.html'">
           Administrator
         </div>

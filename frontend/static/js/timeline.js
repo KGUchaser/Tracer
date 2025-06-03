@@ -1,6 +1,6 @@
 (async function () {
-  // localStorage에서 trackingId 가져오기
-  const trackingId = localStorage.getItem("timelineTrackingId");
+  // sessionStorage에서 trackingId 가져오기
+  const trackingId = sessionStorage.getItem("timelineTrackingId");
   if (!trackingId) {
     document.getElementById("timeline").innerHTML =
       "<p>트래킹 ID 정보가 없습니다. 메인 페이지에서 입력해주세요.</p>";
@@ -14,7 +14,7 @@
   const privateKey =
     "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
   const signer = new ethers.Wallet(privateKey, provider);
-  const contractAddress = "0x5fbdb2315678afecb367f032d93f642f64180aa3";
+  const contractAddress = "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9";
   const contractABI = [
     {
       anonymous: false,

@@ -7,7 +7,7 @@ const path = require("path");
 async function main() {
   const [deployer] = await ethers.getSigners();
   // 이미 Hardhat 등에서 배포된 컨트랙트 주소 (예: 로컬 Hardhat)
-  const contractAddress = "0x5fbdb2315678afecb367f032d93f642f64180aa3";
+  const contractAddress = "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9";
   const contract = await ethers.getContractAt("Traceability", contractAddress);
 
   console.log("Using contract at address:", contractAddress);
